@@ -36,14 +36,27 @@ nav, footer{
     background-color: darkcyan;
 }
 .display{
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    padding: 0 10px;
+    gap: 10px;
     background-color: white;
     height: 120px;
+    justify-content: center;
+}
+
+#expression{
+    font-size: 1.5em;
+}
+
+#result{
+    font-size: 2.5em;
 }
 
 .buttonContainer{
     margin-top: 20px;
     height: 360px;
-    /* background-color: red; */
     display:grid;
     grid-template: repeat( 5, 1fr) / repeat(4, 1fr);
     gap: 10px;
