@@ -55,19 +55,16 @@ const btnNumbers = [
 // Listener
 btnNumbers.forEach((btnNumber,i)=>{
     btnNumber.addEventListener('click',()=>{
-        updateExpression(getExpression() + insertNumber(i))
+        insertNumber(i)
+        updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
+        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
     })
 })
 
 btnDot.addEventListener('click',()=>{
     insertDot()
-    if(operator=='')
-    {
-        updateExpression(numberBeforeOperator)
-    }
-    else{
-        updateExpression(numberBeforeOperator+` ${operator} `+numberAfterOperator)
-    }
+    updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
+
 })
 
 btnBasicOperators.forEach((btnOperator,i)=>{
@@ -79,7 +76,8 @@ btnBasicOperators.forEach((btnOperator,i)=>{
             numberBeforeOperator = result
         }
         operator=operatorDisplayed[i].operator
-        updateExpression(numberBeforeOperator+` ${operatorDisplayed[i].display} `+numberAfterOperator)
+        updateExpression(numberBeforeOperator, operatorDisplayed[i].display, numberAfterOperator)
+
     })
 })
 
@@ -102,7 +100,7 @@ btnPositiveOrNegativeNumber.addEventListener('click',()=>{
     }
     else{
         numberAfterOperator =(numberAfterOperator==''?'-':(numberAfterOperator *-1)).toString()
-        updateExpression(numberBeforeOperator.toString()+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator.toString())
+        updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
         updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
     }
 })
@@ -124,13 +122,7 @@ btnDel.addEventListener('click', ()=>{
             numberBeforeOperator=numberBeforeOperator.length > 0?numberBeforeOperator.slice(0,-1):''
         }
     }
-    if(operator!=='')
-    {
-        updateExpression(numberBeforeOperator+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator)
-    }
-    else{
-        updateExpression(numberBeforeOperator)
-    }
+    updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
     updateResult(operator!==''?operate(numberBeforeOperator, numberAfterOperator, operator):includePercent(numberBeforeOperator))
 })
 
@@ -144,7 +136,7 @@ btnPercent.addEventListener('click', ()=>{
     else{
         if(numberAfterOperator!=''){
             numberAfterOperator=numberAfterOperator.includes('%')?numberAfterOperator:numberAfterOperator+'%'
-            updateExpression(numberBeforeOperator+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator)
+            updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
         }
     }
     updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
@@ -173,7 +165,7 @@ function operate(number1, number2, operator){
             break; 
         }
     }
-    return result
+    return result.toString()
 }
 
 function getExpression(){
@@ -184,13 +176,15 @@ function getResult(){
     return displayResult.getHTML()
 }
 
-function updateExpression(newExpression){
-    displayExpression.innerHTML = newExpression   
+function updateExpression(number1, operator='', number2=''){
+    number1 = number2===''?compresVisualisation(number1, 24, 16):compresVisualisation(number1, 15, 6)
+    number2 = compresVisualisation(number2, 15, 6)
+    displayExpression.innerHTML = `${number1} ${operator} ${number2}`   
 }
 
 function updateResult(newResult){
     if(isFinite(newResult)){
-        displayResult.innerText = newResult
+        displayResult.innerText = compresVisualisation(newResult, 15)
     }
     else{
         displayResult.innerText = 'Syntax Error'
@@ -201,13 +195,13 @@ function resetDisplay(){
     updateExpression('')
     updateResult('')
 }
+
 function insertNumber(number){
     if(operator===''){
         numberBeforeOperator+=number
     }
     else{
         numberAfterOperator+=number
-        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
     }
     return number
 }
@@ -235,4 +229,12 @@ function includePercent(number){
         result = numberSplit[0]/100 * (numberSplit[1]==''?1:numberSplit[1])
     }
     return result.toString()
+}
+
+function compresVisualisation(number, maxLength,tmp=10){
+    let result = number.toString()
+    if(result.length > maxLength){
+        result=result.substr(0,tmp)+'...'+result.slice(-2)
+    }
+    return result
 }
