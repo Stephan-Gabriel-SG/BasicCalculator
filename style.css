@@ -15,6 +15,9 @@
     margin: 0;
     padding: 0;
     font-family: myRegularFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+    -ms-tap-highlight-color: transparent;
     --base: #173B45;
     --orange:#FF8225;
     --red:#B43F3F;
@@ -84,6 +87,9 @@ footer span {
     justify-content: center;
     border-radius: 10px;
 }
+.display span::selection{
+    background-color: var(--orange);
+}
 
 #expression{
     font-size: 1.5em;
@@ -116,6 +122,9 @@ footer span {
     font-weight: bolder;
     background: var(--white);
     font-family: myBoldFont, sans-serif;
+}
+.btn::selection{
+    background-color: transparent;
 }
 
 .operator{
