@@ -75,7 +75,7 @@ function operate(number1, number2, operator){
             break; 
         }
     }
-    return result
+    return Number.isInteger(result)?result:result.toFixed(3)
 }
 
 function getExpression(){
