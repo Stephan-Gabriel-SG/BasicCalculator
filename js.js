@@ -1,7 +1,9 @@
-const expression = document.getElementById('expression')
-const result = document.getElementById('result')
+const displayExpression = document.getElementById('expression')
+const displayResult = document.getElementById('result')
 const operatorDisplayed = ['&divide;','&times;','&minus;','&plus;']
 const operator = 0
+let numberInsertFirst = 0
+let numberInsertSecond = 0
 
 // Buttons
 const btnAC = document.getElementById('AC')
@@ -24,9 +26,9 @@ const btnNumberSeven = document.getElementById('7')
 const btnNumberEight = document.getElementById('8')
 const btnNumberNine = document.getElementById('9')
 
-let val1 = 0
-let val2 = 0
 
+
+// Functions
 function operate(number1, number2, operator){
     let result = NaN
     if(isFinite(number1) && isFinite(number2)){
@@ -46,4 +48,12 @@ function operate(number1, number2, operator){
         }
     }
     return result
+}
+
+function updateExpression(newExpression){
+    displayExpression.innerText = newExpression   
+}
+
+function updateResult(newResult){
+    displayResult.innerText = newResult
 }
