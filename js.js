@@ -1,6 +1,23 @@
 const displayExpression = document.getElementById('expression')
 const displayResult = document.getElementById('result')
-const operatorDisplayed = ['&divide;','&times;','&minus;','&plus;']
+const operatorDisplayed = [
+    {
+        operator:'/',
+        display:'&divide;'
+    },
+    {
+        operator:'*',
+        display:'&times;'
+    },
+    {
+        operator:'-',
+        display:'&minus;'
+    },
+    {
+        operator:'+',
+        display:'&plus;'
+    }
+]
 let operator = ''
 let numberBeforeOperator = ''
 let numberAfterOperator = ''
@@ -15,6 +32,12 @@ const btnMinus = document.getElementById('minus')
 const btnPlus = document.getElementById('plus')
 const btnEquals = document.getElementById('equals')
 const btnDot = document.getElementById('.')
+const btnBasicOperators = [
+    document.getElementById('divide'),
+    document.getElementById('multiply'),
+    document.getElementById('minus'),
+    document.getElementById('plus'),
+]
 const btnNumbers = [
     document.getElementById('0'),
     document.getElementById('1'),
@@ -46,20 +69,25 @@ btnDot.addEventListener('click',()=>{
     }
 })
 
-btnMinus.addEventListener('click', ()=>{
-    if(numberAfterOperator!=''){
-        let result = operate(numberBeforeOperator, numberAfterOperator,'-')
-        updateResult(result)
-        initCalcul()
-        numberBeforeOperator = result
-    }
-    operator='-'
-    updateExpression(numberBeforeOperator+` ${operator} `+numberAfterOperator)
+btnBasicOperators.forEach((btnOperator,i)=>{
+    btnOperator.addEventListener('click', ()=>{
+        if(numberAfterOperator!=''){
+            let result = operate(numberBeforeOperator, numberAfterOperator, operator)
+            updateResult(result)
+            initCalcul()
+            numberBeforeOperator = result
+        }
+        operator=operatorDisplayed[i].operator
+        updateExpression(numberBeforeOperator+` ${operatorDisplayed[i].display} `+numberAfterOperator)
+    })
 })
+
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
     if(isFinite(number1) && isFinite(number2)){
+        number1=parseFloat(number1)
+        number2=parseFloat(number2)
         switch(operator) {
             case '/':
                 result = number1 / number2
@@ -75,7 +103,8 @@ function operate(number1, number2, operator){
             break; 
         }
     }
-    return Number.isInteger(result)?result:result.toFixed(3)
+    // return Number.isInteger(result)?result:result.toFixed(3)
+    return result
 }
 
 function getExpression(){
@@ -87,7 +116,7 @@ function getResult(){
 }
 
 function updateExpression(newExpression){
-    displayExpression.innerText = newExpression   
+    displayExpression.innerHTML = newExpression   
 }
 
 function updateResult(newResult){
