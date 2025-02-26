@@ -4,7 +4,7 @@
 }
 @font-face {
     font-family: myRegularFont;
-    src: url(fonts/NotoSansMath-Regular.ttf);
+    src: url(fonts/Montserrat-Regular.ttf);
 }
 @font-face {
     font-family: myBoldFont;
@@ -15,26 +15,64 @@
     margin: 0;
     padding: 0;
     font-family: myRegularFont, sans-serif;
+    --base: #173B45;
+    --orange:#FF8225;
+    --red:#B43F3F;
+    --white: #F8EDED;
 }
 
 .container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 45px;
+    gap: 35px;
 }
-
-nav, footer{
+/* nav and footer */
+nav, footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 25px 0;
     width: 100%;
-    background-color: pink;
+    background-color: white;
 }
+
+nav {
+    box-shadow: 0 0 2px 0 var(--base);
+}
+
+nav span {
+    font-family: myBoldFont ,sans-serif;
+    color: var(--orange);
+    font-size: 1.5rem;
+}
+
+a {
+    margin-left: 50px;
+    transition: .3s;
+}
+a:hover{
+    transform: scale(1.2);
+}
+
+img {
+    width: 32px;
+}
+
+footer span {
+    font-family: myBoldFont, sans-serif;
+    color: var(--red);
+}
+
+/* Calculator */
 .calculatorContainer{
     height: 500px;
     width: 350px;
     padding: 10px;
-    background-color: darkcyan;
+    border-radius: 10px;
+    background-color: var(--base);
 }
+
 .display{
     display: flex;
     flex-direction: column;
@@ -44,14 +82,18 @@ nav, footer{
     background-color: white;
     height: 120px;
     justify-content: center;
+    border-radius: 10px;
 }
 
 #expression{
     font-size: 1.5em;
+    height: 30%;
 }
 
 #result{
     font-size: 2.5em;
+    height: 42%;
+    font-family: myBoldFont, sans-serif;
 }
 
 .buttonContainer{
@@ -61,6 +103,7 @@ nav, footer{
     grid-template: repeat( 5, 1fr) / repeat(4, 1fr);
     gap: 10px;
 }
+
 .btn{
     display: flex;
     justify-content: center;
@@ -69,10 +112,22 @@ nav, footer{
     font-size: x-large;
     background-color: aliceblue;
     transition: .3s;
+    border-radius: 10px;
+    font-weight: bolder;
+    background: var(--white);
+    font-family: myBoldFont, sans-serif;
 }
+
+.operator{
+    background-color: var(--orange);
+    color: var(--white);
+}
+
 .btn:hover{
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
-#equals{
-    grid-column: 3 / 5;
+
+#equals, .delete{
+    background-color: var(--red);
+    color: var(--white);
 }
