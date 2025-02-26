@@ -1,7 +1,7 @@
 const displayExpression = document.getElementById('expression')
 const displayResult = document.getElementById('result')
 const operatorDisplayed = ['&divide;','&times;','&minus;','&plus;']
-const operator = ''
+let operator = ''
 let numberBeforeOperator = ''
 let numberAfterOperator = ''
 
@@ -37,9 +37,25 @@ btnNumbers.forEach((btnNumber,i)=>{
 
 btnDot.addEventListener('click',()=>{
     insertDot()
-    updateExpression(numberBeforeOperator+operator+numberAfterOperator)
+    if(operator=='')
+    {
+        updateExpression(numberBeforeOperator)
+    }
+    else{
+        updateExpression(numberBeforeOperator+` ${operator} `+numberAfterOperator)
+    }
 })
 
+btnMinus.addEventListener('click', ()=>{
+    if(numberAfterOperator!=''){
+        let result = operate(numberBeforeOperator, numberAfterOperator,'-')
+        updateResult(result)
+        initCalcul()
+        numberBeforeOperator = result
+    }
+    operator='-'
+    updateExpression(numberBeforeOperator+` ${operator} `+numberAfterOperator)
+})
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
@@ -95,4 +111,10 @@ function insertDot(){
     else{
         numberAfterOperator = numberAfterOperator.includes('.')?numberAfterOperator:numberAfterOperator+'.'
     }
+}
+
+function initCalcul(){
+    numberBeforeOperator=''
+    numberAfterOperator=''
+    operator=''
 }
