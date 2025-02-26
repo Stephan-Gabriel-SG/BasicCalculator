@@ -1,9 +1,9 @@
 const displayExpression = document.getElementById('expression')
 const displayResult = document.getElementById('result')
 const operatorDisplayed = ['&divide;','&times;','&minus;','&plus;']
-const operator = 0
-let numberInsertFirst = 0
-let numberInsertSecond = 0
+const operator = ''
+let numberBeforeOperator = ''
+let numberAfterOperator = ''
 
 // Buttons
 const btnAC = document.getElementById('AC')
@@ -15,18 +15,25 @@ const btnMinus = document.getElementById('minus')
 const btnPlus = document.getElementById('plus')
 const btnEquals = document.getElementById('equals')
 const btnDot = document.getElementById('.')
-const btnNumberZero = document.getElementById('0')
-const btnNumberOne = document.getElementById('1')
-const btnNumberTwo = document.getElementById('2')
-const btnNumberThree = document.getElementById('3')
-const btnNumberFour = document.getElementById('4')
-const btnNumberFive = document.getElementById('5')
-const btnNumberSix = document.getElementById('6')
-const btnNumberSeven = document.getElementById('7')
-const btnNumberEight = document.getElementById('8')
-const btnNumberNine = document.getElementById('9')
+const btnNumbers = [
+    document.getElementById('0'),
+    document.getElementById('1'),
+    document.getElementById('2'),
+    document.getElementById('3'),
+    document.getElementById('4'),
+    document.getElementById('5'),
+    document.getElementById('6'),
+    document.getElementById('7'),
+    document.getElementById('8'),
+    document.getElementById('9'),
+]
 
-
+// Listener
+btnNumbers.forEach((btnNumber,i)=>{
+    btnNumber.addEventListener('click',()=>{
+        updateExpression(getExpression() + insertNumber(i))
+    })
+})
 
 // Functions
 function operate(number1, number2, operator){
@@ -50,10 +57,28 @@ function operate(number1, number2, operator){
     return result
 }
 
+function getExpression(){
+    return displayExpression.getHTML()
+}
+
+function getResult(){
+    return displayResult.getHTML()
+}
+
 function updateExpression(newExpression){
     displayExpression.innerText = newExpression   
 }
 
 function updateResult(newResult){
     displayResult.innerText = newResult
+}
+
+function insertNumber(number){
+    if(operator===''){
+        numberBeforeOperator+=number
+    }
+    else{
+        numberAfterOperator+=number
+    }
+    return number
 }
