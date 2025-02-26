@@ -107,6 +107,11 @@ btnPositiveOrNegativeNumber.addEventListener('click',()=>{
     }
 })
 
+btnAC.addEventListener('click', ()=>{
+    initCalcul()
+    resetDisplay()
+})
+
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
@@ -148,6 +153,10 @@ function updateResult(newResult){
     displayResult.innerText = newResult
 }
 
+function resetDisplay(){
+    updateExpression('')
+    updateResult('')
+}
 function insertNumber(number){
     if(operator===''){
         numberBeforeOperator+=number
