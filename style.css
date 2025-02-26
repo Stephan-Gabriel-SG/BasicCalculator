@@ -10,6 +10,9 @@
     font-family: myBoldFont;
     src: url(fonts/Montserrat-Bold.ttf);
 }
+html{
+    min-width: 475px;
+}
 
 *{
     margin: 0;
@@ -23,13 +26,23 @@
     --red:#B43F3F;
     --white: #F8EDED;
 }
+html, body{
+    min-height: 100%;
+}
 
 .container{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 25px;
+    min-height: 100vh;
+    justify-content: space-between;
 }
+
+p{
+    text-align: center;
+}
+
 /* nav and footer */
 nav, footer {
     display: flex;
@@ -51,7 +64,7 @@ nav span {
 }
 
 a {
-    margin-left: 50px;
+    margin-left: 5%;
     transition: .3s;
 }
 a:hover{
