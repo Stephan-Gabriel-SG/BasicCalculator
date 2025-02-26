@@ -131,12 +131,30 @@ btnDel.addEventListener('click', ()=>{
     else{
         updateExpression(numberBeforeOperator)
     }
-    updateResult(operator!==''?operate(numberBeforeOperator, numberAfterOperator, operator):numberBeforeOperator)
+    updateResult(operator!==''?operate(numberBeforeOperator, numberAfterOperator, operator):includePercent(numberBeforeOperator))
+})
+
+btnPercent.addEventListener('click', ()=>{
+    if(operator==''){
+        if(numberBeforeOperator!=''){
+            numberBeforeOperator=numberBeforeOperator.includes('%')?numberBeforeOperator:numberBeforeOperator+'%'
+            updateExpression(numberBeforeOperator)
+        }
+    }
+    else{
+        if(numberAfterOperator!=''){
+            numberAfterOperator=numberAfterOperator.includes('%')?numberAfterOperator:numberAfterOperator+'%'
+            updateExpression(numberBeforeOperator+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator)
+        }
+    }
+    updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
 })
 
 // Functions
 function operate(number1, number2, operator){
-    let result = NaN
+    number1 = includePercent(number1)
+    number2 = includePercent(number2)
+    let result = isFinite(number1) && number2=='' ? number1: NaN
     if(isFinite(number1) && isFinite(number2)){
         number1=parseFloat(number1)
         number2=parseFloat(number2)
@@ -155,7 +173,6 @@ function operate(number1, number2, operator){
             break; 
         }
     }
-    // return Number.isInteger(result)?result:result.toFixed(3)
     return result
 }
 
@@ -208,4 +225,14 @@ function initCalcul(){
     numberBeforeOperator=''
     numberAfterOperator=''
     operator=''
+}
+
+function includePercent(number){
+    let result = number
+    if(number.toString().includes('%'))
+    {
+        let numberSplit = number.split('%')
+        result = numberSplit[0]/100 * (numberSplit[1]==''?1:numberSplit[1])
+    }
+    return result.toString()
 }
