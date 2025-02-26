@@ -82,6 +82,16 @@ btnBasicOperators.forEach((btnOperator,i)=>{
     })
 })
 
+btnEquals.addEventListener('click', ()=>{
+    if(numberBeforeOperator!=='' && numberBeforeOperator!=='' && operator!=='')
+    {
+        let result = operate(numberBeforeOperator, numberAfterOperator, operator)
+        initCalcul()
+        numberBeforeOperator = result
+        updateResult('')
+        updateExpression(result)
+    }
+})
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
@@ -129,6 +139,7 @@ function insertNumber(number){
     }
     else{
         numberAfterOperator+=number
+        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
     }
     return number
 }
