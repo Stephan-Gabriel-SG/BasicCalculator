@@ -177,8 +177,8 @@ function getResult(){
 }
 
 function updateExpression(number1, operator='', number2=''){
-    number1 = number2===''?compresVisualisation(number1, 24, 16):compresVisualisation(number1, 15, 6)
-    number2 = compresVisualisation(number2, 15, 6)
+    number1 = number2===''?compresVisualisation(number1, 24, 16):compresVisualisation(number1, 12, 6)
+    number2 = compresVisualisation(number2, 12, 6)
     displayExpression.innerHTML = `${number1} ${operator} ${number2}`   
 }
 
