@@ -112,6 +112,28 @@ btnAC.addEventListener('click', ()=>{
     resetDisplay()
 })
 
+btnDel.addEventListener('click', ()=>{
+    if(numberAfterOperator.length > 0){
+        numberAfterOperator = numberAfterOperator.slice(0,-1)
+    }
+    else{
+        if(operator!==''){
+            operator=''
+        }
+        else{
+            numberBeforeOperator=numberBeforeOperator.length > 0?numberBeforeOperator.slice(0,-1):''
+        }
+    }
+    if(operator!=='')
+    {
+        updateExpression(numberBeforeOperator+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator)
+    }
+    else{
+        updateExpression(numberBeforeOperator)
+    }
+    updateResult(operator!==''?operate(numberBeforeOperator, numberAfterOperator, operator):numberBeforeOperator)
+})
+
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
@@ -150,7 +172,12 @@ function updateExpression(newExpression){
 }
 
 function updateResult(newResult){
-    displayResult.innerText = newResult
+    if(isFinite(newResult)){
+        displayResult.innerText = newResult
+    }
+    else{
+        displayResult.innerText = 'Syntax Error'
+    }
 }
 
 function resetDisplay(){
