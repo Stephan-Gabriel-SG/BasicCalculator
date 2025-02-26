@@ -53,22 +53,82 @@ const btnNumbers = [
 ]
 
 // Listener
+document.addEventListener('keydown',(event)=>{
+    console.log(event.code)
+    // numpad number
+    for(let i=0; i<10; i++)
+    {
+        if(event.code==`Numpad${i}`){
+            handleEventNumberPress(i)
+        }
+    }
+    // numpad dot
+    if(event.code=='NumpadDecimal'){
+        hanleEventDotPress()
+    }
+    //numpat operator
+    if(event.code=='NumpadDivide'){
+        handleEventBasicOperatorPress(0)
+    }
+    if(event.code=='NumpadMultiply'){
+        handleEventBasicOperatorPress(1)
+    }
+    if(event.code=='NumpadSubtract'){
+        handleEventBasicOperatorPress(2)
+    }
+    if(event.code=='NumpadAdd'){
+        handleEventBasicOperatorPress(3)
+    }
+    if(event.code=='NumpadEnter' || event.code=='Enter'){
+        handleEventEqualBtnPress()
+    }
+    if(event.code=='Backslash'){
+        handleEventPositiveOrNegativeBtnPress()
+    }
+    if(event.code=='Backspace'){
+        handleEventDeleteBtnPress()
+    }
+    if(event.code=='Delete'){
+        handleEventClearAllBtnPress()
+    }
+    if(event.code=='KeyP'){
+        handleEventPercentBtnPress()
+    }
+})
+
 btnNumbers.forEach((btnNumber,i)=>{
-    btnNumber.addEventListener('click',()=>{
-        insertNumber(i)
-        updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
-        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
-    })
+    btnNumber.addEventListener('click', ()=>handleEventNumberPress(i))
 })
 
-btnDot.addEventListener('click',()=>{
-    insertDot()
+btnDot.addEventListener('click', hanleEventDotPress)
+
+btnBasicOperators.forEach((btnOperator, i)=>{
+    btnOperator.addEventListener('click', ()=> handleEventBasicOperatorPress(i))
+})
+
+btnEquals.addEventListener('click', handleEventEqualBtnPress)
+
+btnPositiveOrNegativeNumber.addEventListener('click', handleEventPositiveOrNegativeBtnPress)
+
+btnAC.addEventListener('click', handleEventClearAllBtnPress)
+
+btnDel.addEventListener('click', handleEventDeleteBtnPress)
+
+btnPercent.addEventListener('click', handleEventPercentBtnPress)
+
+// Functions
+function handleEventNumberPress(i){
+    insertNumber(i)
     updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
+    updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
+}
 
-})
+function hanleEventDotPress(){
+    insertDot()
+    updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)  
+}
 
-btnBasicOperators.forEach((btnOperator,i)=>{
-    btnOperator.addEventListener('click', ()=>{
+function handleEventBasicOperatorPress(i){
         if(numberAfterOperator!=''){
             let result = operate(numberBeforeOperator, numberAfterOperator, operator)
             updateResult(result)
@@ -77,40 +137,32 @@ btnBasicOperators.forEach((btnOperator,i)=>{
         }
         operator=operatorDisplayed[i].operator
         updateExpression(numberBeforeOperator, operatorDisplayed[i].display, numberAfterOperator)
+}
 
-    })
-})
-
-btnEquals.addEventListener('click', ()=>{
+function handleEventEqualBtnPress(){
     if(numberBeforeOperator!=='' && numberBeforeOperator!=='' && operator!=='')
-    {
-        let result = operate(numberBeforeOperator, numberAfterOperator, operator)
-        initCalcul()
-        numberBeforeOperator = result
-        updateResult('')
-        updateExpression(result)
-    }
-})
+        {
+            let result = operate(numberBeforeOperator, numberAfterOperator, operator)
+            initCalcul()
+            numberBeforeOperator = result
+            updateResult('')
+            updateExpression(result)
+        }
+}
 
-btnPositiveOrNegativeNumber.addEventListener('click',()=>{
+function handleEventPositiveOrNegativeBtnPress(){
     if(operator=='')
-    {
-        numberBeforeOperator =(numberBeforeOperator==''?'-':(numberBeforeOperator *-1)).toString()
-        updateExpression(numberBeforeOperator)
-    }
-    else{
-        numberAfterOperator =(numberAfterOperator==''?'-':(numberAfterOperator *-1)).toString()
-        updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
-        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
-    }
-})
-
-btnAC.addEventListener('click', ()=>{
-    initCalcul()
-    resetDisplay()
-})
-
-btnDel.addEventListener('click', ()=>{
+        {
+            numberBeforeOperator =(numberBeforeOperator==''?'-':(numberBeforeOperator *-1)).toString()
+            updateExpression(numberBeforeOperator)
+        }
+        else{
+            numberAfterOperator =(numberAfterOperator==''?'-':(numberAfterOperator *-1)).toString()
+            updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
+            updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
+        }
+}
+function handleEventDeleteBtnPress(){
     if(numberAfterOperator.length > 0){
         numberAfterOperator = numberAfterOperator.slice(0,-1)
     }
@@ -124,9 +176,14 @@ btnDel.addEventListener('click', ()=>{
     }
     updateExpression(numberBeforeOperator,operator!=''?operatorDisplayed.find(obj=>obj.operator==operator).display:'', numberAfterOperator)
     updateResult(operator!==''?operate(numberBeforeOperator, numberAfterOperator, operator):includePercent(numberBeforeOperator))
-})
+}
 
-btnPercent.addEventListener('click', ()=>{
+function handleEventClearAllBtnPress(){
+    initCalcul()
+    resetDisplay()
+}
+
+function handleEventPercentBtnPress(){
     if(operator==''){
         if(numberBeforeOperator!=''){
             numberBeforeOperator=numberBeforeOperator.includes('%')?numberBeforeOperator:numberBeforeOperator+'%'
@@ -140,9 +197,8 @@ btnPercent.addEventListener('click', ()=>{
         }
     }
     updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
-})
+}
 
-// Functions
 function operate(number1, number2, operator){
     number1 = includePercent(number1)
     number2 = includePercent(number2)
@@ -184,7 +240,7 @@ function updateExpression(number1, operator='', number2=''){
 
 function updateResult(newResult){
     if(isFinite(newResult)){
-        displayResult.innerText = compresVisualisation(newResult, 15)
+        displayResult.innerText = compresVisualisation(newResult, 13)
     }
     else{
         displayResult.innerText = 'Syntax Error'
@@ -193,7 +249,7 @@ function updateResult(newResult){
 
 function resetDisplay(){
     updateExpression('')
-    updateResult('')
+    updateResult('0')
 }
 
 function insertNumber(number){
