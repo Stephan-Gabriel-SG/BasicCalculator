@@ -54,16 +54,15 @@ const btnNumbers = [
 
 // Listener
 document.addEventListener('keydown',(event)=>{
-    console.log(event.code)
     // numpad number
     for(let i=0; i<10; i++)
     {
-        if(event.code==`Numpad${i}`){
+        if(event.code==`Numpad${i}` || event.code==`Digit${i}`){
             handleEventNumberPress(i)
         }
     }
     // numpad dot
-    if(event.code=='NumpadDecimal'){
+    if(event.code=='NumpadDecimal' || event.code=='Period'){
         hanleEventDotPress()
     }
     //numpat operator
@@ -73,13 +72,13 @@ document.addEventListener('keydown',(event)=>{
     if(event.code=='NumpadMultiply'){
         handleEventBasicOperatorPress(1)
     }
-    if(event.code=='NumpadSubtract'){
+    if(event.code=='NumpadSubtract' || event.code=='Minus'){
         handleEventBasicOperatorPress(2)
     }
     if(event.code=='NumpadAdd'){
         handleEventBasicOperatorPress(3)
     }
-    if(event.code=='NumpadEnter' || event.code=='Enter'){
+    if(event.code=='NumpadEnter' || event.code=='Enter' || event.code=='Equal'){
         handleEventEqualBtnPress()
     }
     if(event.code=='Backslash'){
