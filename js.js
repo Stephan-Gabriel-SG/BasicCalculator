@@ -35,6 +35,11 @@ btnNumbers.forEach((btnNumber,i)=>{
     })
 })
 
+btnDot.addEventListener('click',()=>{
+    insertDot()
+    updateExpression(numberBeforeOperator+operator+numberAfterOperator)
+})
+
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
@@ -81,4 +86,13 @@ function insertNumber(number){
         numberAfterOperator+=number
     }
     return number
+}
+
+function insertDot(){
+    if(operator===''){
+        numberBeforeOperator = numberBeforeOperator.includes('.')?numberBeforeOperator:numberBeforeOperator+'.'
+    }
+    else{
+        numberAfterOperator = numberAfterOperator.includes('.')?numberAfterOperator:numberAfterOperator+'.'
+    }
 }
