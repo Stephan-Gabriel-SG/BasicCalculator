@@ -26,3 +26,24 @@ const btnNumberNine = document.getElementById('9')
 
 let val1 = 0
 let val2 = 0
+
+function operate(number1, number2, operator){
+    let result = NaN
+    if(isFinite(number1) && isFinite(number2)){
+        switch(operator) {
+            case '/':
+                result = number1 / number2
+            break;
+            case '*':
+                result = number1 * number2
+            break;
+            case '-':
+                result = number1 - number2
+            break;
+            case '+':
+                result = number1 + number2
+            break; 
+        }
+    }
+    return result
+}
