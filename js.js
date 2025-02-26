@@ -31,6 +31,7 @@ const btnMultiply = document.getElementById('multiply')
 const btnMinus = document.getElementById('minus')
 const btnPlus = document.getElementById('plus')
 const btnEquals = document.getElementById('equals')
+const btnPositiveOrNegativeNumber = document.getElementById('+/-')
 const btnDot = document.getElementById('.')
 const btnBasicOperators = [
     document.getElementById('divide'),
@@ -92,6 +93,20 @@ btnEquals.addEventListener('click', ()=>{
         updateExpression(result)
     }
 })
+
+btnPositiveOrNegativeNumber.addEventListener('click',()=>{
+    if(operator=='')
+    {
+        numberBeforeOperator =(numberBeforeOperator==''?'-':(numberBeforeOperator *-1)).toString()
+        updateExpression(numberBeforeOperator)
+    }
+    else{
+        numberAfterOperator =(numberAfterOperator==''?'-':(numberAfterOperator *-1)).toString()
+        updateExpression(numberBeforeOperator.toString()+` ${operatorDisplayed.find(obj=>obj.operator==operator).display} `+numberAfterOperator.toString())
+        updateResult(operate(numberBeforeOperator, numberAfterOperator, operator))
+    }
+})
+
 // Functions
 function operate(number1, number2, operator){
     let result = NaN
